@@ -1,6 +1,22 @@
 // Color system
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
+@mixin _assert-ascending($map, $map-name) {
+    $prev-key: null;
+    $prev-num: null;
+    @each $key, $num in $map {
+      @if $prev-num == null or unit($num) == "%" or unit($prev-num) == "%" {
+        // Do nothing
+      } @else if not comparable($prev-num, $num) {
+        @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+      } @else if $prev-num >= $num {
+        @warn "Invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} which isn't greater than #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+      }
+      $prev-key: $key;
+      $prev-num: $num;
+    }
+}
+
 $white:    #FFFFFF !default;
 $gray-100: #EBEBEB !default;
 $gray-200: #CCCCCC !default;
