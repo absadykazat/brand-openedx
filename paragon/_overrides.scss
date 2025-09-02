@@ -1,8 +1,4 @@
-#root header.customise.learning-header
-{
-    background-color: $primary;
-    
-    .logo img {
-        height: 60px;
-    } 
+body {
+    background-color: red !important;
+    border: 10px solid red !important;
 }
